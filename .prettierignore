@@ -1,0 +1,27 @@
+# Ignore artifacts:
+dist
+
+# Ignore all HTML files:
+*.html
+
+.babelrc
+.eslintrc.js
+.prettierrc.js
+.husky
+
+.vscode
+
+app.yaml
+
+node_modules
+graphql
+public
+*.sql
+yarn.lock
+
+
+# Local
+.env
+.webpack
+.serverless/**/*.zip
+db
