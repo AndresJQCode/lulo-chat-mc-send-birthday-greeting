@@ -38,7 +38,6 @@ export class WcController {
   @Post('webhook')
   async webhook(@Body() data) {
     try {
-      console.log(data);
       return data;
     } catch (error) {
       throw new HttpException('Error webhook', HttpStatus.INTERNAL_SERVER_ERROR);

@@ -13,7 +13,6 @@ export class WompiService {
   async generateLinkPayment(paymentInfo) {
     const url = `${this.endpoint}/payment_links`;
     const dataWompi = WompiDataAdapter(paymentInfo);
-    console.log(`dataWompi`, dataWompi);
     try {
       const response: AxiosResponse = await axios.post(`${url}`, dataWompi, {
         headers: {
@@ -42,8 +41,7 @@ export class WompiService {
           Authorization: `Bearer ${this.privateKey}`,
         },
       });
-      console.log(url, response.data);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       throw new Error(`Error while fetching generateLinkPayment: ${error.message}`);
     }

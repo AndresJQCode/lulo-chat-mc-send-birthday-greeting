@@ -1,4 +1,4 @@
-import { IsNotEmpty, ValidateNested } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export interface PaymentData {
@@ -22,41 +22,52 @@ export interface Products {
 }
 
 export class ProductDto implements Products {
-  @IsNotEmpty()
+  @IsNumber()
+  @IsNotEmpty({ message: 'El productId debe ser un número y no puede estar vacío' })
   productId: number;
 
-  @IsNotEmpty()
+  @IsNumber()
+  @IsNotEmpty({ message: 'La cantidad debe ser un número y no puede estar vacía' })
   quantity: number;
 }
 
 export class BillingDto implements Billing {
+  @IsString({ message: 'El firstName debe ser un string y no puede estar vacío' })
   @IsNotEmpty()
   firstName: string;
 
+  @IsString({ message: 'El lastName debe ser un string y no puede estar vacío' })
   @IsNotEmpty()
   lastName: string;
 
+  @IsString({ message: 'La dirección debe ser un string y no puede estar vacía' })
   @IsNotEmpty()
   address: string;
 
+  @IsString({ message: 'La ciudad debe ser un string y no puede estar vacía' })
   @IsNotEmpty()
   city: string;
 
+  @IsString({ message: 'El estado debe ser un string y no puede estar vacío' })
   @IsNotEmpty()
   state: string;
 
+  @IsString({ message: 'El email debe ser un string y no puede estar vacío' })
   @IsNotEmpty()
   email: string;
 
+  @IsString({ message: 'El teléfono debe ser un string y no puede estar vacío' })
   @IsNotEmpty()
   phone: string;
 }
 
 export class PaymentDataDto implements PaymentData {
+  @IsNotEmpty({ message: 'Los datos de facturación no pueden estar vacíos' })
   @ValidateNested()
   @Type(() => BillingDto)
   billing: BillingDto;
 
+  @IsNotEmpty({ message: 'Los productos no pueden estar vacíos' })
   @ValidateNested({ each: true })
   @Type(() => ProductDto)
   products: ProductDto[];
