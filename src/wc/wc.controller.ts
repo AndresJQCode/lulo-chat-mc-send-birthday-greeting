@@ -3,6 +3,7 @@ import { WcService } from './services/wc.service';
 import { WompiService } from './services/wompi.service';
 import { PaymentDataDto } from './dto/payment-data.dto';
 import { TransationsService } from './repositories/Transactions.repository';
+import { ResponseGenerateLink, ResponseOrders } from './interfaces/response.interface';
 
 @Controller('wc')
 export class WcController {
@@ -13,7 +14,7 @@ export class WcController {
   ) {}
 
   @Get('orders')
-  async getAllOrders() {
+  async getAllOrders(): Promise<ResponseOrders> {
     try {
       const orders = await this.wcService.getAllOrders();
       return orders;
@@ -23,7 +24,7 @@ export class WcController {
   }
 
   @Post('generate-payment-link')
-  async generatePaymentLink(@Body() paymentData: PaymentDataDto) {
+  async generatePaymentLink(@Body() paymentData: PaymentDataDto): Promise<ResponseGenerateLink> {
     try {
       const paymentInfo = await this.wcService.createOrder(paymentData);
       const [paymentLink, code] = await this.wompiService.generateLinkPayment(paymentInfo);
@@ -32,15 +33,6 @@ export class WcController {
       return { id, url: paymentLink, total, status, billing, shipping, products };
     } catch (error) {
       throw new HttpException(`Error generating payment URL: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  @Post('webhook')
-  async webhook(@Body() data) {
-    try {
-      return data;
-    } catch (error) {
-      throw new HttpException('Error webhook', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

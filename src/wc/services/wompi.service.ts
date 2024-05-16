@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
 import { WompiDataAdapter } from '../adapters/wompi-data.adapter';
 import { Transaction } from '@prisma/client';
+import { ResponseTransactionWompi } from '../interfaces/response.interface';
 
 @Injectable()
 export class WompiService {
@@ -27,7 +28,7 @@ export class WompiService {
     }
   }
 
-  async getStatusByTransaction(transaction: Transaction) {
+  async getStatusByTransaction(transaction: Transaction): Promise<ResponseTransactionWompi[]> {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     const formattedYesterday = yesterday.toISOString().slice(0, 10);

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
 import { PaymentData } from '../dto/payment-data.dto';
 import { WcPaymentDataAdapter } from '../adapters/wc-payment-data.adapter';
-import { Transaction } from '../interfaces/transaction.interface';
 import { TransactionToWc } from '../adapters/transaction-to-wc.adapter';
+import { ResponseOrders, ResponseTransactionWompi } from '../interfaces/response.interface';
 
 @Injectable()
 export class WcService {
@@ -11,7 +11,7 @@ export class WcService {
   private endpoint = process.env.SHOP_URL;
   private api_key = process.env.API_KEY_WC;
 
-  async createOrder(PaymentData: PaymentData) {
+  async createOrder(PaymentData: PaymentData): Promise<ResponseOrders> {
     const paymentDataToWc = WcPaymentDataAdapter(PaymentData);
     try {
       const response: AxiosResponse = await axios.post(`${this.endpoint}/orders`, paymentDataToWc, {
@@ -25,7 +25,7 @@ export class WcService {
     }
   }
 
-  async getAllOrders(): Promise<any> {
+  async getAllOrders(): Promise<ResponseOrders> {
     try {
       const url = `${this.endpoint}/orders`;
       const response: AxiosResponse = await axios.get(url, {
@@ -39,7 +39,7 @@ export class WcService {
     }
   }
 
-  async updateOrder(transaction: Transaction, paymentId) {
+  async updateOrder(transaction: ResponseTransactionWompi, paymentId) {
     const updatedOrder = TransactionToWc(transaction);
     try {
       const response: AxiosResponse = await axios.put(`${this.endpoint}/orders/${paymentId}`, updatedOrder, {
