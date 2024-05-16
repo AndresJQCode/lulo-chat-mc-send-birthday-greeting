@@ -3,6 +3,6 @@ export interface Transaction {
   paymentId: string;
   value: number;
   date: Date;
-  paymentLink?: string;
+  paymentLink: string;
   status: string;
 }
