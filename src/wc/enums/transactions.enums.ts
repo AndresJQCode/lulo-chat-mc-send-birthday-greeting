@@ -8,4 +8,5 @@ export enum OrderStatus {
   COMPLETED = 'completed',
   FAILED = 'failed',
   DECLINED = 'declined',
+  PENDING = 'pending',
 }

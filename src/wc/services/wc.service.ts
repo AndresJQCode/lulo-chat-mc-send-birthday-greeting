@@ -41,6 +41,7 @@ export class WcService {
 
   async updateOrder(transaction: ResponseTransactionWompi, paymentId) {
     const updatedOrder = TransactionToWc(transaction);
+    console.log('updatedOrder', updatedOrder);
     try {
       const response: AxiosResponse = await axios.put(`${this.endpoint}/orders/${paymentId}`, updatedOrder, {
         headers: {

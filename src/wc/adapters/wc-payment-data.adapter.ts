@@ -11,7 +11,7 @@ export function WcPaymentDataAdapter(paymentData: PaymentData) {
     fullName: paymentData.billing,
     payment_method: 'bacs',
     payment_method_title: 'Direct Bank Transfer',
-    set_paid: true,
+    set_paid: false,
     billing: {
       first_name: paymentData.billing.firstName,
       last_name: paymentData.billing.lastName,
