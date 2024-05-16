@@ -1,13 +1,15 @@
 import { Body, Controller, Post, HttpException, HttpStatus, Get } from '@nestjs/common';
-import { WcService } from './wc.service';
-import { WompiService } from './Wompi.service';
-import { PaymentDataDto } from './dto/PaymentDataDto';
+import { WcService } from './services/wc.service';
+import { WompiService } from './services/wompi.service';
+import { PaymentDataDto } from './dto/payment-data.dto';
+import { TransationsService } from './repositories/Transactions.repository';
 
 @Controller('wc')
 export class WcController {
   constructor(
     private readonly wcService: WcService,
-    private readonly wompiService: WompiService
+    private readonly wompiService: WompiService,
+    private readonly transationsService: TransationsService
   ) {}
 
   @Get('orders')
@@ -24,13 +26,12 @@ export class WcController {
   async generatePaymentLink(@Body() paymentData: PaymentDataDto) {
     try {
       const paymentInfo = await this.wcService.createOrder(paymentData);
-      const linkPayment = await this.wompiService.generateLinkPayment(paymentInfo);
-
+      const [paymentLink, code] = await this.wompiService.generateLinkPayment(paymentInfo);
+      await this.transationsService.createTransaction(paymentInfo, code);
       const { id, line_items: products, billing, shipping, total, status } = paymentInfo;
-
-      return { id, url: linkPayment, total, status, billing, shipping, products };
+      return { id, url: paymentLink, total, status, billing, shipping, products };
     } catch (error) {
-      throw new HttpException('Error generating payment URL', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(`Error generating payment URL: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

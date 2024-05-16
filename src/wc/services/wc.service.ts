@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
-import { PaymentData } from './dto/PaymentDataDto';
-import { WcPaymentDataAdapter } from './adapters/WcPaymentDataAdapter';
+import { PaymentData } from '../dto/payment-data.dto';
+import { WcPaymentDataAdapter } from '../adapters/wc-payment-data.adapter';
 
 @Injectable()
 export class WcService {
   constructor() {}
   private endpoint = process.env.SHOP_URL;
   private api_key = process.env.API_KEY_WC;
+
   async createOrder(PaymentData: PaymentData) {
     const paymentDataToWc = WcPaymentDataAdapter(PaymentData);
     try {

@@ -1,4 +1,4 @@
-import { PaymentData } from '../dto/PaymentDataDto';
+import { PaymentData } from '../dto/payment-data.dto';
 
 export function WcPaymentDataAdapter(paymentData: PaymentData) {
   const products = paymentData.products?.map((product) => {

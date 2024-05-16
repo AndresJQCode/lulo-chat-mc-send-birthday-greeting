@@ -5,7 +5,6 @@ export function WompiDataAdapter(paymentInfo) {
     description: ' ',
     single_use: true,
     collect_shipping: false,
-    redirect_url: '',
     currency: currency,
     amount_in_cents: Number(`${total}00`),
     customer_data: {

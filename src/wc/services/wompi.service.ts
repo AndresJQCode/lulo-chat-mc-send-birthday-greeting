@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
-import { WompiDataAdapter } from './adapters/WompiDataAdapter';
+import { WompiDataAdapter } from '../adapters/wompi-data.adapter';
 
 @Injectable()
 export class WompiService {
@@ -12,7 +12,7 @@ export class WompiService {
   async generateLinkPayment(paymentInfo) {
     const url = `${this.endpoint}/payment_links`;
     const dataWompi = WompiDataAdapter(paymentInfo);
-    console.log('dataWompi', dataWompi);
+    console.log(`dataWompi`, dataWompi);
     try {
       const response: AxiosResponse = await axios.post(`${url}`, dataWompi, {
         headers: {
@@ -21,7 +21,7 @@ export class WompiService {
       });
       const { id } = response.data.data;
       const urlPayment = `${this.urlPaymentBase}/${id}`;
-      return urlPayment;
+      return [urlPayment, id];
     } catch (error) {
       throw new Error(`Error while fetching generateLinkPayment: ${error.message}`);
     }
