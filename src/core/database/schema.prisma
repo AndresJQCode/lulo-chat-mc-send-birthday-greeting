@@ -31,3 +31,15 @@ model Role {
 
   @@map("roles")
 }
+
+
+model Transaction {
+  id         String   @id @default(uuid())
+  paymentId  String   // ID del pago
+  value      Float    // Valor de la transacción
+  date       DateTime @default(now()) // Fecha de la transacción
+  paymentLink String  // Enlace de pago
+  status     String   // Estado de pago
+
+  @@map("transactions")
+}

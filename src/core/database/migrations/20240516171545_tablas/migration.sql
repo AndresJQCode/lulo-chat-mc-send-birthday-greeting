@@ -20,6 +20,18 @@ CREATE TABLE "roles" (
     CONSTRAINT "roles_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "transactions" (
+    "id" TEXT NOT NULL,
+    "paymentId" TEXT NOT NULL,
+    "value" DOUBLE PRECISION NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "paymentLink" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
+
+    CONSTRAINT "transactions_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 

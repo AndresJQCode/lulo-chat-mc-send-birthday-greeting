@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: juana-shop-erp-backend
-  namespace: juana-shop
+  name: lulo-chat-mc-ecommerce-payment
+  namespace: lulo-chat-backend-release
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     kubernetes.io/ingress.class: "nginx"
@@ -11,16 +11,16 @@ metadata:
 spec:
   tls:
     - hosts:
-        - api-erp.juanashop.co
-      secretName: juana-shop-erp-backend-ingress-tls
+        - mc-release-ecommerce-payment.lulochat.com
+      secretName: lulo-chat-backend-ingress-tls
   rules:
-    - host: api-erp.juanashop.co
+    - host: mc-release-ecommerce-payment.lulochat.com
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: juana-shop-erp-backend
+                name: lulo-chat-mc-ecommerce-payment
                 port:
                   number: 80
