@@ -1,15 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
 import { WompiDataAdapter } from '../adapters/wompi-data.adapter';
 import { Transaction } from '@prisma/client';
 import { ResponseTransactionWompi } from '../interfaces/response.interface';
+import configurations from 'src/core/config/configurations';
+import { ConfigType } from '@nestjs/config';
 
 @Injectable()
 export class WompiService {
-  constructor() {}
-  private endpoint = process.env.WOMPI_URL;
-  private privateKey = process.env.PRIVATE_KEY_WOMPI;
-  private urlPaymentBase = process.env.WOMPI_LINK_PAYMENT;
+  constructor(@Inject(configurations.KEY) private readonly _configService: ConfigType<typeof configurations>) {}
+  private endpoint = this._configService.wompiUrl;
+  private privateKey = this._configService.privateKeyWompi;
+  private urlPaymentBase = this._configService.wompiLink;
 
   async generateLinkPayment(paymentInfo) {
     const url = `${this.endpoint}/payment_links`;
