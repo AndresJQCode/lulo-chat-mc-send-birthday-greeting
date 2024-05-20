@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lulo-chat-mc-ecommerce-payment
+  namespace: lulo-chat-backend
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  tls:
+    - hosts:
+        - mc-ecommerce-payment.lulochat.com
+      secretName: lulo-chat-backend-ingress-tls
+  rules:
+    - host: mc-ecommerce-payment.lulochat.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: lulo-chat-mc-ecommerce-payment
+                port:
+                  number: 80

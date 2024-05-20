@@ -68,11 +68,11 @@ stages:
               inlineScript: |
                 az keyvault secret show --name kubeconfigsecret --vault-name k8config --query value -o tsv > kubeconfig.yaml
           - script: |
-              sed -i 's|TAG|$(tag)|g' k8s/deployment.yaml
+              sed -i 's|TAG|$(tag)|g' k8s/prod-deployment.yaml
             displayName: 'Replace TAG in Kubernetes deployment file'
           - task: Kubernetes@1
             displayName: 'Deploy to Kubernetes cluster'
             inputs:
               connectionType: 'None'
               command: 'apply'
-              arguments: '--context rke -f k8s/deployment.yaml --kubeconfig=kubeconfig.yaml'
+              arguments: '--context rke -f k8s/prod-deployment.yaml --kubeconfig=kubeconfig.yaml'
