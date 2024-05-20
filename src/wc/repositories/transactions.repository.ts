@@ -23,7 +23,6 @@ export class TransationsService {
   }
 
   async updateStatusTransaction(id: string, status: string): Promise<Transaction> {
-    console.log(id, status);
     return this.prisma.transaction.update({
       where: {
         id,

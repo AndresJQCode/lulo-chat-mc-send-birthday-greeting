@@ -1,12 +1,12 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { TransationsService } from '../repositories/Transactions.repository';
 import { OrderStatus } from '../enums/transactions.enums';
 import { WompiService } from './../services/wompi.service';
 import { WcService } from '../services/wc.service';
 import axios, { AxiosResponse } from 'axios';
 import configurations from 'src/core/config/configurations';
 import { ConfigType } from '@nestjs/config';
+import { TransationsService } from '../repositories/transactions.repository';
 
 @Injectable()
 export class TransationStatusCronjobService {

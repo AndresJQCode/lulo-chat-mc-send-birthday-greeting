@@ -9,7 +9,7 @@ import { WcService } from './wc/services/wc.service';
 import { WompiService } from './wc/services/wompi.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TransationStatusCronjobService } from './wc/cronjob/transation-status.service';
-import { TransationsService } from './wc/repositories/Transactions.repository';
+import { TransationsService } from './wc/repositories/transactions.repository';
 @Module({
   imports: [ConfigModule.forRoot(configRoot()), PrismaModule, AuthModule, OrdersModule, ScheduleModule.forRoot()],
   controllers: [WcController],
