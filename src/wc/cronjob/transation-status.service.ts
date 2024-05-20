@@ -1,20 +1,23 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { TransationsService } from '../repositories/Transactions.repository';
 import { OrderStatus } from '../enums/transactions.enums';
 import { WompiService } from './../services/wompi.service';
 import { WcService } from '../services/wc.service';
 import axios, { AxiosResponse } from 'axios';
+import configurations from 'src/core/config/configurations';
+import { ConfigType } from '@nestjs/config';
 
 @Injectable()
 export class TransationStatusCronjobService {
   constructor(
     private readonly transationsService: TransationsService,
     private readonly wompiService: WompiService,
-    private readonly wcService: WcService
+    private readonly wcService: WcService,
+    @Inject(configurations.KEY) private readonly _configService: ConfigType<typeof configurations>
   ) {}
   private readonly logger = new Logger(TransationStatusCronjobService.name);
-  private endpoint = process.env.LULO_CHAT_URL;
+  private endpoint = this._configService.luloChatUrl;
 
   @Cron(CronExpression.EVERY_30_SECONDS)
   async handleCron() {
