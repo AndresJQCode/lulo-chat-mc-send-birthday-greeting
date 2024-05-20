@@ -1,9 +1,10 @@
-import { Body, Controller, Post, HttpException, HttpStatus, Get } from '@nestjs/common';
+import { Body, Controller, Post, HttpException, HttpStatus, Get, Param } from '@nestjs/common';
 import { WcService } from './services/wc.service';
 import { WompiService } from './services/wompi.service';
 import { PaymentDataDto } from './dto/payment-data.dto';
-import { TransationsService } from './repositories/transactions.repository';
 import { ResponseGenerateLink, ResponseOrders } from './interfaces/response.interface';
+import { TransationsService } from './repositories/transactions.repository';
+import { TransformedProduct } from './interfaces/products.interface';
 
 @Controller('wc')
 export class WcController {
@@ -13,13 +14,23 @@ export class WcController {
     private readonly transationsService: TransationsService
   ) {}
 
-  @Get('orders')
-  async getAllOrders(): Promise<ResponseOrders> {
+  @Get('products')
+  async getProducts(): Promise<TransformedProduct[]> {
     try {
-      const orders = await this.wcService.getAllOrders();
-      return orders;
+      const products = await this.wcService.getProducts();
+      return products;
     } catch (error) {
-      throw new HttpException('Error getAllOrders', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException('Error getProducts', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get('products/:id')
+  async getProductById(@Param('id') idProduct: number): Promise<TransformedProduct> {
+    try {
+      const products = await this.wcService.getProductsById(idProduct);
+      return products;
+    } catch (error) {
+      throw new HttpException('Error getProducts', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -33,6 +44,17 @@ export class WcController {
       return { id, url: paymentLink, total, status, billing, shipping, products };
     } catch (error) {
       throw new HttpException(`Error generating payment URL: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  // Por si a futuro se necesitan obtener las ordenes
+  @Get('orders')
+  async getAllOrders(): Promise<ResponseOrders> {
+    try {
+      const orders = await this.wcService.getAllOrders();
+      return orders;
+    } catch (error) {
+      throw new HttpException('Error getAllOrders', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
