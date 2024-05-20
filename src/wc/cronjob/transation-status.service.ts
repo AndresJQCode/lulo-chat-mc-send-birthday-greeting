@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { TransationsService } from '../repositories/Transactions.repository';
+import { TransationsService } from '../repositories/transactions.repository';
 import { OrderStatus } from '../enums/transactions.enums';
 import { WompiService } from './../services/wompi.service';
 import { WcService } from '../services/wc.service';

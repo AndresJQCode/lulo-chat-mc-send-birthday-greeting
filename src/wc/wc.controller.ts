@@ -2,7 +2,7 @@ import { Body, Controller, Post, HttpException, HttpStatus, Get } from '@nestjs/
 import { WcService } from './services/wc.service';
 import { WompiService } from './services/wompi.service';
 import { PaymentDataDto } from './dto/payment-data.dto';
-import { TransationsService } from './repositories/Transactions.repository';
+import { TransationsService } from './repositories/transactions.repository';
 import { ResponseGenerateLink, ResponseOrders } from './interfaces/response.interface';
 
 @Controller('wc')
