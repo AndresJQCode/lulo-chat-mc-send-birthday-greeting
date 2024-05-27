@@ -11,20 +11,32 @@ export class BirthdayRepository extends EntityRepository<BirthdayDocument> {
     super(birthdayModel);
   }
 
-  async saveSettings(settings: IBirthday): Promise<BirthdayDocument> {
-    // Map the settings to a new Birthday document
-    const newBirthday = new this.birthdayModel({
-      whatsAppNumber: settings.whatsAppNumber,
-      template: settings.template,
-      hour: settings.hour,
-      status: settings.status,
-      createdAt: new Date(),
-      proccesing: false,
-      tenantId: settings.whatsAppNumber.tenantId,
-    });
+  async saveOrUpdateSettings(settings: IBirthday): Promise<BirthdayDocument> {
+    // Find a Birthday document with the given tenantId
+    const existingBirthday = await this.birthdayModel.findOne({ tenantId: settings.whatsAppNumber.tenantId }).exec();
 
-    // Save the new Birthday document to the database
-    return await newBirthday.save();
+    if (existingBirthday) {
+      existingBirthday.template = settings.template;
+      existingBirthday.hour = settings.hour;
+      existingBirthday.status = settings.status;
+
+      // Save the updated document to the database
+      return await existingBirthday.save();
+    } else {
+      // Map the settings to a new Birthday document
+      const newBirthday = new this.birthdayModel({
+        whatsAppNumber: settings.whatsAppNumber,
+        template: settings.template,
+        hour: settings.hour,
+        status: settings.status,
+        createdAt: new Date(),
+        proccesing: false,
+        tenantId: settings.whatsAppNumber.tenantId,
+      });
+
+      // Save the new Birthday document to the database
+      return await newBirthday.save();
+    }
   }
 
   async find(query: any): Promise<BirthdayDocument[]> {

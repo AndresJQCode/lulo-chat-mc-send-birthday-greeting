@@ -8,7 +8,7 @@ export class BirthdayService {
 
   async createBirthdaySettings(birthdaySetting: IBirthday) {
     try {
-      const savedSettings = await this.birthdayRepository.saveSettings(birthdaySetting);
+      const savedSettings = await this.birthdayRepository.saveOrUpdateSettings(birthdaySetting);
       return savedSettings;
     } catch (error) {
       throw new Error(`Error while creating birthday settings: ${error.message}`);
