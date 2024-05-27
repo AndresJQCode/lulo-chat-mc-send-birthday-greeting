@@ -20,6 +20,7 @@ export class BirthdayRepository extends EntityRepository<BirthdayDocument> {
       status: settings.status,
       createdAt: new Date(),
       proccesing: false,
+      tenantId: settings.whatsAppNumber.tenantId,
     });
 
     // Save the new Birthday document to the database
@@ -35,6 +36,14 @@ export class BirthdayRepository extends EntityRepository<BirthdayDocument> {
       await this.birthdayModel.updateOne({ _id: birthdayId }, { processing: processingStatus });
     } catch (error) {
       throw new Error(`Failed to update processing status for birthday with ID ${birthdayId}: ${error.message}`);
+    }
+  }
+
+  async findByTenantId(tenantId: string): Promise<BirthdayDocument[]> {
+    try {
+      return await this.birthdayModel.find({ tenantId }).exec();
+    } catch (error) {
+      throw new Error(`Failed to find birthdays for tenant with ID ${tenantId}: ${error.message}`);
     }
   }
 }

@@ -14,4 +14,13 @@ export class BirthdayService {
       throw new Error(`Error while creating birthday settings: ${error.message}`);
     }
   }
+
+  async getBirthdaySettingsByTenantId(tenantId: string) {
+    try {
+      const savedSettings = await this.birthdayRepository.findByTenantId(tenantId);
+      return savedSettings;
+    } catch (error) {
+      throw new Error(`Error while creating birthday settings: ${error.message}`);
+    }
+  }
 }

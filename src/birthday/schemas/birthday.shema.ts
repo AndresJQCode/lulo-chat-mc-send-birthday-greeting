@@ -94,6 +94,9 @@ export class Birthday {
 
   @Prop({ required: true })
   proccesing: boolean;
+
+  @Prop({ required: true })
+  tenantId: string;
 }
 
 export const BirthdaySchema = SchemaFactory.createForClass(Birthday);
