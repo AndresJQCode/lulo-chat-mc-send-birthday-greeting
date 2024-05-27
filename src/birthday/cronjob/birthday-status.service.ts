@@ -18,7 +18,7 @@ export class BirthdayStatusCronjobService {
   urlLuloChatBackend;
   private readonly logger = new Logger(BirthdayStatusCronjobService.name);
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_30_SECONDS)
   async handleCron() {
     this.logger.debug('Executing cron job');
 
@@ -33,9 +33,11 @@ export class BirthdayStatusCronjobService {
       });
 
       for (const birthday of birthdays) {
-        console.log(birthday);
-
-        await this.notify(birthday);
+        if (birthday.proccesing == false) {
+          await this.birthdayRepository.updateProcessingStatus(birthday.id, true);
+          await this.notify(birthday);
+          await this.birthdayRepository.updateProcessingStatus(birthday.id, true);
+        }
       }
     } catch (error) {
       this.logger.error(`Error in handleCron: ${error.message}`);
@@ -44,27 +46,47 @@ export class BirthdayStatusCronjobService {
 
   async notify(birthday: IBirthday) {
     try {
-      const hoy = new Date().toISOString().slice(0, 10); // Get today's date
+      const hoy = new Date();
+      const hoySinAño = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()); // Elimina el año de hoy
       const contacts = await this.getContacts(birthday.whatsAppNumber.tenantId);
 
       for (const contact of contacts) {
-        console.log(contact);
-        if (contact.birthDate === hoy) {
+        const contactBirthday = new Date(contact.birthDate);
+        const contactBirthdaySinAño = new Date(
+          hoy.getFullYear(),
+          contactBirthday.getMonth(),
+          contactBirthday.getDate()
+        ); // Elimina el año del cumpleaños del contacto
+
+        if (contactBirthdaySinAño.getTime() === hoySinAño.getTime()) {
+          // Compara solo día y mes
+          const { name, components } = birthday.template;
+
+          //const conversationId = await this.getConversationId(contact.tenantId);
           const postData = {
             from: birthday.whatsAppNumber.number,
             to: contact.phones[0].number,
             operator: 'agent',
             type: 'template',
             mediaUrl: '',
-            template: birthday.template,
+            template: {
+              name,
+              components: components.map((c) => ({
+                type: c.type,
+                text: c.text,
+              })),
+              language: {
+                code: 'es',
+              },
+            },
             text: '',
-            conversationId: 'c4a3ae11-24a8-4192-9138-6bb21ba768aa',
+            //conversationId: conversationId,
             temporalSmsId: uuidv4(),
             contactId: contact.id,
           };
 
           const response = await axios.post(
-            `${this.configService.urlLuloChatBackend}/messaging-microservice`,
+            `${this.configService.urlLuloChatBackend}/messaging-microservice/send-message/${contact.id}`,
             postData,
             {
               params: {
@@ -75,6 +97,7 @@ export class BirthdayStatusCronjobService {
           );
           this.logger.debug(`Notification sent for birthday: ${birthday.id}`);
           console.log(response.data);
+          return response;
         }
       }
     } catch (error) {
@@ -94,6 +117,24 @@ export class BirthdayStatusCronjobService {
       return contactsResponse.data;
     } catch (error) {
       this.logger.error(`Error in getContacts: ${error.message}`);
+      throw error; // Re-throw the error to propagate it
+    }
+  }
+
+  async getConversationId(tenantId: string) {
+    try {
+      const conversationIdResponse = await axios.get(
+        `${this.configService.urlLuloChatBackend}/messaging-microservice/conversationId/${tenantId}`,
+        {
+          params: {
+            tenantId: tenantId,
+            apiKey: this.configService.apiKey,
+          },
+        }
+      );
+      return conversationIdResponse.data;
+    } catch (error) {
+      this.logger.error(`Error in getConversationId: ${error.message}`);
       throw error; // Re-throw the error to propagate it
     }
   }

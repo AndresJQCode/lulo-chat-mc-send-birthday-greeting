@@ -19,6 +19,7 @@ export class BirthdayRepository extends EntityRepository<BirthdayDocument> {
       hour: settings.hour,
       status: settings.status,
       createdAt: new Date(),
+      proccesing: false,
     });
 
     // Save the new Birthday document to the database
@@ -27,5 +28,13 @@ export class BirthdayRepository extends EntityRepository<BirthdayDocument> {
 
   async find(query: any): Promise<BirthdayDocument[]> {
     return this.birthdayModel.find(query).exec();
+  }
+
+  async updateProcessingStatus(birthdayId: string, processingStatus: boolean): Promise<void> {
+    try {
+      await this.birthdayModel.updateOne({ _id: birthdayId }, { processing: processingStatus });
+    } catch (error) {
+      throw new Error(`Failed to update processing status for birthday with ID ${birthdayId}: ${error.message}`);
+    }
   }
 }

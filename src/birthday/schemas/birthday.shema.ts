@@ -91,6 +91,9 @@ export class Birthday {
 
   @Prop({ default: Date.now })
   createdAt: Date;
+
+  @Prop({ required: true })
+  proccesing: boolean;
 }
 
 export const BirthdaySchema = SchemaFactory.createForClass(Birthday);

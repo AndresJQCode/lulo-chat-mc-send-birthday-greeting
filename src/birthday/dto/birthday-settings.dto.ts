@@ -4,36 +4,28 @@ import { Component, IBirthday, Template, WhatsAppNumber } from '../interfaces/bi
 
 export class ComponentDto implements Component {
   @IsString({ message: 'type debe ser un string y no puede estar vacío' })
-  @IsNotEmpty()
   type: string;
 
   @IsString({ message: 'text debe ser un string y no puede estar vacío' })
-  @IsNotEmpty()
   text: string;
 }
 
 export class TemplateDto implements Template {
   @IsString({ message: 'name debe ser un string y no puede estar vacío' })
-  @IsNotEmpty()
   name: string;
-  @IsNotEmpty()
   @Type(() => ComponentDto)
   components: ComponentDto[];
 
   @IsString({ message: 'language debe ser un string y no puede estar vacío' })
-  @IsNotEmpty()
   language: string;
 
   @IsString({ message: 'status debe ser un string y no puede estar vacío' })
-  @IsNotEmpty()
   status: string;
 
   @IsString({ message: 'category debe ser un string y no puede estar vacío' })
-  @IsNotEmpty()
   category: string;
 
   @IsString({ message: 'id debe ser un string y no puede estar vacío' })
-  @IsNotEmpty()
   id: string;
 }
 
