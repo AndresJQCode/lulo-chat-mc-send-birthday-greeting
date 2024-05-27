@@ -18,7 +18,7 @@ export class BirthdayStatusCronjobService {
   urlLuloChatBackend;
   private readonly logger = new Logger(BirthdayStatusCronjobService.name);
 
-  @Cron(CronExpression.EVERY_30_SECONDS)
+  @Cron('*/50 * * * * *')
   async handleCron() {
     this.logger.debug('Executing cron job');
 
@@ -80,13 +80,12 @@ export class BirthdayStatusCronjobService {
               },
             },
             text: '',
-            //conversationId: conversationId,
             temporalSmsId: uuidv4(),
             contactId: contact.id,
           };
 
           const response = await axios.post(
-            `${this.configService.urlLuloChatBackend}/messaging-microservice/send-message/${contact.id}`,
+            `${this.configService.urlLuloChatBackend}/messaging-microservice/send-message/${contact.tenantId}`,
             postData,
             {
               params: {
@@ -96,7 +95,6 @@ export class BirthdayStatusCronjobService {
             }
           );
           this.logger.debug(`Notification sent for birthday: ${birthday.id}`);
-          console.log(response.data);
           return response;
         }
       }
