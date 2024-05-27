@@ -3,20 +3,16 @@ import * as Joi from 'joi';
 
 export interface IConfig {
   databaseUrl: string;
-  jwtSecret: string;
-  jwtExpiresIn: string;
-  encryptionPassword: string;
-  encryptionIv: string;
+  apiKey: string;
+  urlLuloChatBackend: string;
 }
 
 const configurations = registerAs(
   'configEnvs',
   (): IConfig => ({
     databaseUrl: process.env.DATABASE_URL,
-    jwtSecret: process.env.JWT_SECRET,
-    jwtExpiresIn: process.env.TOKEN_EXPIRATION,
-    encryptionPassword: process.env.ENCRYPTION_PASSWORD,
-    encryptionIv: process.env.ENCRYPTION_IV,
+    apiKey: process.env.API_KEY_LULO_CHAT_BACKEND,
+    urlLuloChatBackend: process.env.URL_LULO_CHAT_BACKEND,
   })
 );
 
@@ -28,10 +24,8 @@ export function configRoot(): ConfigModuleOptions {
     isGlobal: true,
     validationSchema: Joi.object({
       DATABASE_URL: Joi.string().required(),
-      JWT_SECRET: Joi.string().required(),
-      TOKEN_EXPIRATION: Joi.string().required(),
-      ENCRYPTION_PASSWORD: Joi.string().required(),
-      ENCRYPTION_IV: Joi.string().required(),
+      API_KEY_LULO_CHAT_BACKEND: Joi.string().required(),
+      URL_LULO_CHAT_BACKEND: Joi.string().required(),
     }),
   };
 }

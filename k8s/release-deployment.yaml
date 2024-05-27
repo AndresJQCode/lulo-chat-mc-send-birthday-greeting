@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lulo-chat-mc-ecommerce-payment
+  namespace: lulo-chat-backend-release
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lulo-chat-mc-ecommerce-payment
+  template:
+    metadata:
+      labels:
+        app: lulo-chat-mc-ecommerce-payment
+      annotations:
+        force-recreate: "1" # Add or update this annotation to trigger a rolling update
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: admin
+          image: index.docker.io/qcodeco/lulo-chat-mc-ecommerce-payment:TAG
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3004
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: lulo-chat-mc-ecommerce-payment-config
