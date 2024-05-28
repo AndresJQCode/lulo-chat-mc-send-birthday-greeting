@@ -36,7 +36,7 @@ export class BirthdayStatusCronjobService {
         if (birthday.proccesing == false) {
           await this.birthdayRepository.updateProcessingStatus(birthday.id, true);
           await this.notify(birthday);
-          await this.birthdayRepository.updateProcessingStatus(birthday.id, true);
+          await this.birthdayRepository.updateProcessingStatus(birthday.id, false);
         }
       }
     } catch (error) {
