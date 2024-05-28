@@ -1,12 +1,20 @@
 kind: Service
 apiVersion: v1
 metadata:
+<<<<<<< HEAD
   name: lulo-chat-mc-ecommerce-payment
+=======
+  name: lulo-chat-mc-birthday-greeting
+>>>>>>> bdfb14d2941aa55c6d29de6bf886eaccfd226986
   namespace: lulo-chat-backend
 spec:
   type: ClusterIP
   selector:
+<<<<<<< HEAD
     app: lulo-chat-mc-ecommerce-payment
+=======
+    app: lulo-chat-mc-birthday-greeting
+>>>>>>> bdfb14d2941aa55c6d29de6bf886eaccfd226986
   ports:
     - name: http
       protocol: TCP

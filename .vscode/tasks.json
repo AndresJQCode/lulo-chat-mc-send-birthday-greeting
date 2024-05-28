@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "docker compose up",
+      "type": "shell",
+      "command": "docker compose -f 'compose.dev.yaml' up -d --build",
+      "problemMatcher": []
+    },
+    {
+      "label": "docker compose down",
+      "type": "shell",
+      "command": "docker compose -f 'compose.dev.yaml' down -v",
+      "problemMatcher": []
+    }
+  ]
+}
