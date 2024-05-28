@@ -9,7 +9,7 @@ resources:
 variables:
   tag: '$(Build.BuildId)'
   dockerHubUsername: 'qcodeco'
-  dockerHubRepo: 'lulo-chat-mc-ecommerce-payment'
+  dockerHubRepo: 'lulo-chat-mc-birthday-greeting'
 
 stages:
   - stage: Build
