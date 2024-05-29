@@ -1,29 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-<<<<<<< HEAD
-  name: lulo-chat-mc-ecommerce-payment
-=======
   name: lulo-chat-mc-birthday-greeting
->>>>>>> bdfb14d2941aa55c6d29de6bf886eaccfd226986
   namespace: lulo-chat-backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-<<<<<<< HEAD
-      app: lulo-chat-mc-ecommerce-payment
-  template:
-    metadata:
-      labels:
-        app: lulo-chat-mc-ecommerce-payment
-=======
       app: lulo-chat-mc-birthday-greeting
   template:
     metadata:
       labels:
         app: lulo-chat-mc-birthday-greeting
->>>>>>> bdfb14d2941aa55c6d29de6bf886eaccfd226986
       annotations:
         force-recreate: "1" # Add or update this annotation to trigger a rolling update
     spec:
@@ -31,19 +19,11 @@ spec:
         - name: regcred
       containers:
         - name: admin
-<<<<<<< HEAD
-          image: index.docker.io/qcodeco/lulo-chat-mc-ecommerce-payment:TAG
-=======
           image: index.docker.io/qcodeco/lulo-chat-mc-birthday-greeting:TAG
->>>>>>> bdfb14d2941aa55c6d29de6bf886eaccfd226986
           imagePullPolicy: Always
           ports:
             - containerPort: 3004
               protocol: TCP
           envFrom:
             - configMapRef:
-<<<<<<< HEAD
-                name: lulo-chat-mc-ecommerce-payment-config
-=======
                 name: lulo-chat-mc-birthday-greeting-config
->>>>>>> bdfb14d2941aa55c6d29de6bf886eaccfd226986

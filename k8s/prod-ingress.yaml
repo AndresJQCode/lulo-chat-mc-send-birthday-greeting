@@ -1,11 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-<<<<<<< HEAD
-  name: lulo-chat-mc-ecommerce-payment
-=======
   name: lulo-chat-mc-birthday-greeting
->>>>>>> bdfb14d2941aa55c6d29de6bf886eaccfd226986
   namespace: lulo-chat-backend
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
@@ -15,27 +11,16 @@ metadata:
 spec:
   tls:
     - hosts:
-<<<<<<< HEAD
-        - mc-ecommerce-payment.lulochat.com
-      secretName: lulo-chat-backend-ingress-tls
-  rules:
-    - host: mc-ecommerce-payment.lulochat.com
-=======
         - mc-birthday-greeting.lulochat.com
       secretName: lulo-chat-backend-ingress-tls
   rules:
     - host: mc-birthday-greeting.lulochat.com
->>>>>>> bdfb14d2941aa55c6d29de6bf886eaccfd226986
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-<<<<<<< HEAD
-                name: lulo-chat-mc-ecommerce-payment
-=======
                 name: lulo-chat-mc-birthday-greeting
->>>>>>> bdfb14d2941aa55c6d29de6bf886eaccfd226986
                 port:
                   number: 80
