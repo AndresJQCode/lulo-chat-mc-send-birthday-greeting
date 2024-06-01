@@ -60,7 +60,7 @@ export class BirthdayStatusCronjobService {
 
         if (contactBirthdaySinAño.getTime() === hoySinAño.getTime()) {
           // Compara solo día y mes
-          const { name, components } = birthday.template;
+          const { name } = birthday.template;
 
           //const conversationId = await this.getConversationId(contact.tenantId);
           const postData = {
@@ -71,10 +71,6 @@ export class BirthdayStatusCronjobService {
             mediaUrl: '',
             template: {
               name,
-              components: components.map((c) => ({
-                type: c.type,
-                text: c.text,
-              })),
               language: {
                 code: 'es',
               },

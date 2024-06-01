@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: lulo-chat-mc-ecommerce-payment
+  name: lulo-chat-mc-birthday-greeting
   namespace: lulo-chat-backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lulo-chat-mc-ecommerce-payment
+      app: lulo-chat-mc-birthday-greeting
   template:
     metadata:
       labels:
-        app: lulo-chat-mc-ecommerce-payment
+        app: lulo-chat-mc-birthday-greeting
       annotations:
         force-recreate: "1" # Add or update this annotation to trigger a rolling update
     spec:
@@ -19,11 +19,11 @@ spec:
         - name: regcred
       containers:
         - name: admin
-          image: index.docker.io/qcodeco/lulo-chat-mc-ecommerce-payment:TAG
+          image: index.docker.io/qcodeco/lulo-chat-mc-birthday-greeting:TAG
           imagePullPolicy: Always
           ports:
             - containerPort: 3004
               protocol: TCP
           envFrom:
             - configMapRef:
-                name: lulo-chat-mc-ecommerce-payment-config
+                name: lulo-chat-mc-birthday-greeting-config

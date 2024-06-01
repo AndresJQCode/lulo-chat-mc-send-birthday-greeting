@@ -46,7 +46,7 @@ class Component {
   @Prop({ required: true })
   type: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   text: string;
 }
 

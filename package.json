@@ -15,9 +15,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "type-check": "tsc --pretty --noEmit",
     "lint:fix": "eslint \"src/**/*.ts\" --fix",
-    "check-all": "pnpm format && pnpm lint:fix && pnpm type-check",
-    "prisma:mi": "prisma migrate dev --create-only --name",
-    "prisma:deploy": "prisma migrate deploy"
+    "check-all": "pnpm format && pnpm lint:fix && pnpm type-check"
   },
   "dependencies": {
     "@fastify/static": "^6.12.0",
@@ -57,15 +55,10 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "prettier": "^3.2.5",
-    "prisma": "^5.9.1",
     "source-map-support": "^0.5.21",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
-  },
-  "prisma": {
-    "schema": "./src/core/database/schema.prisma",
-    "seed": "ts-node ./src/core/database/seed.ts"
   }
 }
